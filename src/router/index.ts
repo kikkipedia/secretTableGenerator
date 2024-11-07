@@ -1,4 +1,5 @@
 import Form from '@/components/Form.vue'
+import SecretWords from '@/components/SecretWords.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -9,7 +10,11 @@ const router = createRouter({
       name: 'home',
       component: Form,
     },
-
+    {
+      path: '/secret',
+      name: 'secret',
+      component: SecretWords,
+    }
   ],
 })
 
