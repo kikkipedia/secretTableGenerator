@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="main">
         Page with the words from database
     </div>
 </template>
