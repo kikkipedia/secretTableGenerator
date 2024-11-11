@@ -176,5 +176,5 @@ margin-top:8%;
 margin-left:calc(50% - 35px);
 box-shadow:inset 0 0 20px rgba(0,0,0,0.4);
 background-image: url(play.png);
-;
+background-size: cover;
 }
