@@ -34,3 +34,25 @@ export const getWords = async (id: string) => {
         return null;
     }
 }
+
+export const getAllTables = async () => {
+    const querySnapshot = await getDocs(collection(db, "table"));
+    const tables = querySnapshot.docs.map(doc => doc.data());
+    console.log(tables);
+    return tables;
+}
+
+//randomise table and count -1 on the table places
+export const randomiseTable = async () => {
+    //randomiser for 1-3
+    const random = Math.floor(Math.random() * 3) + 1;
+    const docRef = doc(db, `table/table${random}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const docData = docSnap.data();
+        //update field places in table
+        const newTable = docData.places - 1;
+        await setDoc(docRef, {table: newTable});
+    }
+    return `table${random}`
+}

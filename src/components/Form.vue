@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { saveWords } from '@/db';
+import { randomiseTable, saveWords } from '@/db';
 import { ref } from 'vue'
 
  type Artwork = [
@@ -84,7 +84,11 @@ import { ref } from 'vue'
     //make an array of artworks
     const artwork: Artwork = [artwork1.value, artwork2.value, artwork3.value, artwork4.value, artwork5.value];
     //save to odatabase
-    const response = await saveWords(artwork);
+    await saveWords(artwork);
+    //start loader
+
+    //randomize table from database
+    const response = await randomiseTable();
     console.log(response);
   };
 
