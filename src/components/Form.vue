@@ -154,14 +154,14 @@ onMounted(() => {
 #snow {
   position: relative;
   overflow: hidden;
-  height: 50vh; /* Adjust based on the section you want to cover */
+  height: 40vh; /* Adjust based on the section you want to cover */
   width: 100%;
   background: transparent; /* Background color, optional */
 }
 
 .snowflake {
   position: absolute;
-  top: -50px; /* Start above the container */
+  top: -10px; /* Start above the container */
   font-size: 14px;
   color: rgba(0,0,0,0.2);
   animation: fall linear infinite;
@@ -171,7 +171,7 @@ onMounted(() => {
 @keyframes fall {
   0% {
     transform: translateY(-100px);
-    opacity: 1;
+    opacity: 0.5;
   }
   100% {
     transform: translateY(100vh); /* Move down the full height */
