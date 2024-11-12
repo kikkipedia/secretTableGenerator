@@ -155,7 +155,7 @@ input[type=text] {
     font-family: "departure-mono", sans-serif !important;
     border: none;
     border-bottom: 0px;
-    background-color:transparent;
+    background-color:transparent !important;
     font-size:20px;
     height:100%;
     width:100%;
