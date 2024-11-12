@@ -48,13 +48,14 @@ import { randomiseTable, saveWords } from '@/db';
 import { useTableStore } from '@/stores/store';
 import { onMounted, ref } from 'vue'
 
- type Artwork = [
-    string,
-    string,
-    string,
-    string,
-    string
-];
+
+    type Artwork = [
+        string,
+        string,
+        string,
+        string,
+        string
+    ];
 
     const artwork1 = ref('');
     const artwork2 = ref('');
@@ -64,19 +65,23 @@ import { onMounted, ref } from 'vue'
 
     const loader = ref(false);
     const store = useTableStore();
-    const snowflakeCount = 100;
+    const snowflakeCount = 70;
 
   const calculate = async () => {
     //make an array of artworks
     const artwork: Artwork = [artwork1.value, artwork2.value, artwork3.value, artwork4.value, artwork5.value];
-    //save to odatabase
+    //save to database
     await saveWords(artwork);
     //start loader
-
+    loader.value = true;
     //randomize table from database
     const response = await randomiseTable();
     //set table in store
     store.setTable(response);
+  };
+
+  const getImage = (table: string) => {
+    return new URL(`@/assets/${table}.png`, import.meta.url).href;
   };
 
 onMounted(() => {
