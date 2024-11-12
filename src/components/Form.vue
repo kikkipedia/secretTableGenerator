@@ -119,6 +119,9 @@ onMounted(() => {
   background-origin: border-box;
   position: relative;
   animation: l9-0 2s infinite;
+  margin-left:70%;
+  opacity:0.5;
+  color:black;
 }
 .loader::before {
   content:"Beräknar...";
