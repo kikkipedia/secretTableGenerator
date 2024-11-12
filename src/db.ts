@@ -24,3 +24,13 @@ export const saveWords = async (words: string[]) => {
         return docRef;
     });
 }
+
+export const getWords = async (id: string) => {
+    const docRef = doc(db, `words/${id}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        return null;
+    }
+}
