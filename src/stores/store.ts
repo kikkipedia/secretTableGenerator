@@ -1,12 +1,13 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useTableStore = defineStore('table', () => {
+  const table = ref('')
+  const image = ref('')
+
+  const setTable = (newTable: string) => {
+    table.value = newTable
   }
 
-  return { count, doubleCount, increment }
+  return { table, image, setTable }
 })
