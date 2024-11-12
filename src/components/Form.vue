@@ -1,6 +1,5 @@
 <template>
     <div id="main-window">
-<<<<<<< HEAD
         <div id="snowflakes">
             <div class="snowflake">*</div>
             <div class="snowflake">*</div>
@@ -27,7 +26,7 @@
           </div>
         <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div>
         <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
-=======
+
         <div id="snow">
             <span
       v-for="n in snowflakeCount"
@@ -43,7 +42,7 @@
                 <div class="loader"></div>
             </div>  
         </div>
->>>>>>> 8049ada6d9c3f655f679d1e26016b96e56b76835
+
     </div>
     <div class="divider-1"></div>
     <div class="art-input-screen">
