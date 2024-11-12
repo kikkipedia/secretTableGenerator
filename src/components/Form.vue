@@ -65,7 +65,7 @@ import { onMounted, ref } from 'vue'
 
     const loader = ref(false);
     const store = useTableStore();
-    const snowflakeCount = 70;
+    const snowflakeCount = 30;
 
   const calculate = async () => {
     //make an array of artworks
@@ -154,7 +154,7 @@ onMounted(() => {
 #snow {
   position: relative;
   overflow: hidden;
-  height: 40vh; /* Adjust based on the section you want to cover */
+  height: 30vh; /* Adjust based on the section you want to cover */
   width: 100%;
   background: transparent; /* Background color, optional */
 }
@@ -170,11 +170,11 @@ onMounted(() => {
 /* Keyframes for falling effect */
 @keyframes fall {
   0% {
-    transform: translateY(-100px);
+    transform: translateY(-0px);
     opacity: 0.5;
   }
   100% {
-    transform: translateY(100vh); /* Move down the full height */
+    transform: translateY(30vh); /* Move down the full height */
     opacity: 0;
   }
 }
