@@ -1,45 +1,20 @@
 <template>
     <div id="main-window">
         <div id="snow">
- <marquee direction="down" scrolldelay="98">*</marquee>
-<marquee direction="down" scrolldelay="76">*</marquee>
-<marquee direction="down" scrolldelay="61">*</marquee>
-<marquee direction="down" scrolldelay="138">*</marquee>
-<marquee direction="down" scrolldelay="86">*</marquee>
-<marquee direction="down" scrolldelay="127">*</marquee>
-<marquee direction="down" scrolldelay="82">*</marquee>
-<marquee direction="down" scrolldelay="112">*</marquee>
-<marquee direction="down" scrolldelay="119">*</marquee>
-<marquee direction="down" scrolldelay="99">*</marquee>
-<marquee direction="down" scrolldelay="75">*</marquee>
-<marquee direction="down" scrolldelay="89">*</marquee>
-<marquee direction="down" scrolldelay="76">*</marquee>
-<marquee direction="down" scrolldelay="111">*</marquee>
-<marquee direction="down" scrolldelay="136">*</marquee>
-<marquee direction="down" scrolldelay="96">*</marquee>
-<marquee direction="down" scrolldelay="136">*</marquee>
-<marquee direction="down" scrolldelay="119">*</marquee>
-<marquee direction="down" scrolldelay="83">*</marquee>
-<marquee direction="down" scrolldelay="124">*</marquee>
-<marquee direction="down" scrolldelay="130">*</marquee>
-<marquee direction="down" scrolldelay="78">*</marquee>
-<marquee direction="down" scrolldelay="76">*</marquee>
-<marquee direction="down" scrolldelay="75">*</marquee>
-<marquee direction="down" scrolldelay="98">*</marquee>
-<marquee direction="down" scrolldelay="105">*</marquee>
-<marquee direction="down" scrolldelay="112">*</marquee>
-<marquee direction="down" scrolldelay="67">*</marquee>
-<marquee direction="down" scrolldelay="87">*</marquee>
-<marquee direction="down" scrolldelay="89">*</marquee>
-</div>
-<div v-if="!loader">
-    <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div>
-    <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
-</div>
-<div v-else>
-    <div class="loader"></div>
-    </div>  
+            <span
+      v-for="n in snowflakeCount"
+      :key="n"
+      class="snowflake"
+    >*</span>
+            <div v-if="!loader">
+                <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div>
+                <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
+            </div>
         
+            <div v-else>
+                <div class="loader"></div>
+            </div>  
+        </div>
     </div>
     <div class="divider-1"></div>
     <div class="art-input-screen">
@@ -71,7 +46,7 @@
 <script setup lang="ts">
 import { randomiseTable, saveWords } from '@/db';
 import { useTableStore } from '@/stores/store';
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
  type Artwork = [
     string,
@@ -89,6 +64,7 @@ import { ref } from 'vue'
 
     const loader = ref(false);
     const store = useTableStore();
+    const snowflakeCount = 100;
 
   const calculate = async () => {
     //make an array of artworks
@@ -103,7 +79,17 @@ import { ref } from 'vue'
     store.setTable(response);
   };
 
-
+onMounted(() => {
+    //start snow
+    const snowflakes = document.querySelectorAll('.snowflake');
+    // Apply random positioning and animation delays for each snowflake
+    snowflakes.forEach((flake) => {
+        const flakeElement = flake as HTMLElement;
+        flakeElement.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+        flakeElement.style.animationDuration = `${Math.random() * 3 + 4}s`; // Duration between 2s and 5s
+        flakeElement.style.animationDelay = `${Math.random() * 15}s`; // Delay up to 5s
+      });
+});
 </script>
 
 <style scoped>
@@ -159,4 +145,33 @@ import { ref } from 'vue'
   75%   { background-position:bottom, bottom 54px left 0,bottom 3px left 0,bottom 0 left 50%;left:calc(100% - 22px)}
   75.1% { background-position:bottom, bottom 10px left 0,bottom 3px left 0,bottom 0 left 50%;left:calc(100% - 22px)}
 }
+
+#snow {
+  position: relative;
+  overflow: hidden;
+  height: 50vh; /* Adjust based on the section you want to cover */
+  width: 100%;
+  background: transparent; /* Background color, optional */
+}
+
+.snowflake {
+  position: absolute;
+  top: -50px; /* Start above the container */
+  font-size: 14px;
+  color: rgba(0,0,0,0.2);
+  animation: fall linear infinite;
+}
+
+/* Keyframes for falling effect */
+@keyframes fall {
+  0% {
+    transform: translateY(-100px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh); /* Move down the full height */
+    opacity: 0;
+  }
+}
+
 </style>
