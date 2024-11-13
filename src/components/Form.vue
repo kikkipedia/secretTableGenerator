@@ -174,8 +174,40 @@ onMounted(() => {
 @keyframes fall {
   0% {
     transform: translateY(-0px);
+    opacity: 0.6;
+  }
+
+  10% {
+    opacity: 0.1;
+  }
+  15% {
     opacity: 0.5;
   }
+  20% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  35% {
+    opacity: 0.3;
+  }
+ 40% {
+    opacity: 0.1;
+  }
+ 45% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.1;
+  }
+ 55% {
+    opacity: 0.3;
+  }
+ 
   100% {
     transform: translateY(30vh); /* Move down the full height */
     opacity: 0;
