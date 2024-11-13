@@ -104,10 +104,10 @@ onMounted(() => {
 
 /* HTML: <div class="loader"></div> */
 .loader {
-    margin-top: 100px;
+    margin-top: 10vh;
   width: fit-content;
   font-size: 17px;
-  font-family: monospace;
+  font-family: "departure-mono", sans-serif !important;
   line-height: 1.4;
   font-weight: bold;
   background: 
@@ -117,9 +117,9 @@ onMounted(() => {
   border-right: 5px solid #0000;
   border-left: 5px solid #0000;
   background-origin: border-box;
-  position: relative;
+  position: absolute;
   animation: l9-0 2s infinite;
-  margin-left:70%;
+  margin-left:25vw;
   opacity:0.5;
   color:black;
 }
