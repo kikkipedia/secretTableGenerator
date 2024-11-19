@@ -168,7 +168,7 @@ onMounted(() => {
   position: absolute;
   top: -10px; /* Start above the container */
   font-size: 14px;
-  color: rgba(0,0,0,0.2);
+  color: rgba(0,0,0,0.4);
   animation: fall linear infinite;
 }
 

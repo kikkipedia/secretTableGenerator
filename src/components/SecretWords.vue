@@ -10,8 +10,8 @@
                 :words="words"
 
             />
-
         </div>
+        Word cloud för artwork1
     </div>
 </template>
 
@@ -60,7 +60,8 @@ onMounted(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: black;
+    color: white;
     margin: 20px;
     border-radius: 20px;
 }
