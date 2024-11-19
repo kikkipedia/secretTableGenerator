@@ -8,17 +8,35 @@
       :key="n"
       class="snowflake"
     >*</span>
-            <div v-if="!loader">
-                <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div>
-                <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
-            </div>
-        
-            <div v-else>
-                <div class="loader"></div>
-            </div>  
-        </div>
+    <!--system.css warning-->
+    <div class="shake-div" v-if="warning">
+    <div class="window">
+  <div class="title-bar">
+    <button aria-label="Close" class="close"></button>
+    <h1 class="title">Warning</h1>
+    <!-- <button aria-label="Resize" class="resize"></button> -->
+    <button aria-label="Close" class="close"></button>
+  </div>
+  <div class="window-pane">
+    Var god fyll i samtliga fält
+  </div>
+</div>
+</div>
+<div class="place-ready" v-if="img_url">
+  <img :src="img_url" class="image"/>
+</div>
+      <div v-if="!loader && !warning" >
+        <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div>
+        <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
+      </div>
+      
+      <div v-else-if="loader" style="text-align: center;">
+        <div class="loader"></div>
+      </div> 
+    </div>
     </div>
     <div class="divider-1"></div>
+
     <div class="art-input-screen">
     <div class="art-input">
         <!--bind to ref-->
@@ -50,7 +68,6 @@ import { randomiseTable, saveWords } from '@/db';
 import { useTableStore } from '@/stores/store';
 import { onMounted, ref } from 'vue'
 
-
     type Artwork = [
         string,
         string,
@@ -64,12 +81,24 @@ import { onMounted, ref } from 'vue'
     const artwork3 = ref('');
     const artwork4 = ref('');
     const artwork5 = ref('');
-
-    const loader = ref(false);
-    const store = useTableStore();
     const snowflakeCount = 30;
+    const warning = ref(false);
+    const loader = ref(false);
+    const images: Record<string, { default: string }> = import.meta.glob('/src/assets/*.png', { eager: true });
+    const img_url = ref('');
+
+    const store = useTableStore();
+   
 
   const calculate = async () => {
+    //check so all fields are filled
+    if (!artwork1.value || !artwork2.value || !artwork3.value || !artwork4.value || !artwork5.value) {
+      warning.value = true;
+      return;
+    }
+    else {
+      warning.value = false;
+    }
     //make an array of artworks
     const artwork: Artwork = [artwork1.value, artwork2.value, artwork3.value, artwork4.value, artwork5.value];
     //save to database
@@ -80,11 +109,19 @@ import { onMounted, ref } from 'vue'
     const response = await randomiseTable();
     //set table in store
     store.setTable(response);
+    //get corresponding image
+    const image = getImage(response);
+    if (image) {
+      img_url.value = image; 
+    } else {
+      console.warn('Image not found for:', response);
+      img_url.value = ''; 
+    }
   };
 
-  const getImage = (table: string) => {
-    return new URL(`@/assets/${table}.png`, import.meta.url).href;
-  };
+  const getImage = (table: string): string | undefined => {
+  return images[`/src/assets/${table}.png`]?.default; // Ensure correct key format
+};
 
 onMounted(() => {
     //start snow
@@ -121,7 +158,7 @@ onMounted(() => {
   background-origin: border-box;
   position: absolute;
   animation: l9-0 2s infinite;
-  margin-left:25vw;
+  margin-left:17vw;
   opacity:0.5;
   color:black;
 }
@@ -216,4 +253,58 @@ onMounted(() => {
   }
 }
 
+.window {
+  background-color: transparent;
+  min-width: 100px;
+  height: 70%;
+  margin-top: 30px;
+  opacity: 0.5;
+  border-color:rgba(0, 0, 0, 0.6);
+  color: black;
+}
+
+.window-pane {
+  height: 100%;
+  margin-top: 20px;
+  color: black;
+  font-size: 0.8rem;
+  padding: 10px;
+}
+
+.close {
+  background-color:rgb(200,200,200);
+   background: linear-gradient(rgb(230,250,230), rgb(140,160,140));
+   opacity: 0.6;
+}
+
+
+.title {
+  background-color:rgb(200,200,200);
+  background: linear-gradient(rgb(230,250,230), rgb(140,160,140));
+  font-size: 1rem;
+  color: black
+}
+
+.shake-div {
+  width: 100%;
+  text-align:center;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
 </style>
