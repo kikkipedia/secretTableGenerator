@@ -1,4 +1,6 @@
 <template>
+  <div id="main">
+    <div id="scratches">  </div>
     <div id="main-window">
         <div id="snow">
             <span
@@ -40,7 +42,7 @@
     </div>
     </div>
     <div id="calculate" @click="calculate"></div>
-
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -166,7 +168,7 @@ onMounted(() => {
   position: absolute;
   top: -10px; /* Start above the container */
   font-size: 14px;
-  color: rgba(0,0,0,0.2);
+  color: rgba(0,0,0,0.4);
   animation: fall linear infinite;
 }
 
