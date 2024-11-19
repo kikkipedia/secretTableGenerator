@@ -1,4 +1,6 @@
 <template>
+  <div id="main">
+    <div id="scratches">  </div>
     <div id="main-window">
         <div id="snow">
             <span
@@ -40,7 +42,7 @@
     </div>
     </div>
     <div id="calculate" @click="calculate"></div>
-
+  </div>
 </template>
 
 <script setup lang="ts">
