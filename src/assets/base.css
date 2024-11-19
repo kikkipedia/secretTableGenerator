@@ -19,6 +19,18 @@ body {
     box-sizing: border-box;
   }
 
+  #logo{
+    background-image: url(logo2.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width:80%;
+    height:30%;
+    margin-left:10%;
+    margin-top:15%;
+    opacity:0.8;
+  }
+  
+
 #main{
     font-family: "departure-mono", sans-serif !important;
     background-color:rgb(150,50,50);

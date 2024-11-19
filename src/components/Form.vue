@@ -26,7 +26,8 @@
   <img :src="img_url" class="image"/>
 </div>
       <div v-if="!loader && !warning" >
-        <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div>
+        <div id="logo" class=""></div>
+     <!--    <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div> -->
         <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
       </div>
       
@@ -140,6 +141,7 @@ onMounted(() => {
 #calculate {
     cursor: pointer;
 }
+
 
 /* HTML: <div class="loader"></div> */
 .loader {
