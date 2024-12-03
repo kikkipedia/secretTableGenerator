@@ -13,6 +13,7 @@ html,body{
 body {
     height: calc(100vh - 85px);
     width: 100vw;
+    background-color:black !important;
   }
 
   * {
