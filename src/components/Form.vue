@@ -8,37 +8,39 @@
       :key="n"
       class="snowflake"
     >*</span>
+
     <!--system.css warning-->
-    <div class="shake-div" v-if="warning">
-    <div class="window">
-  <div class="title-bar">
-    <button aria-label="Close" class="close"></button>
-    <h1 class="title">Warning</h1>
-    <!-- <button aria-label="Resize" class="resize"></button> -->
-    <button aria-label="Close" class="close"></button>
-  </div>
-  <div class="window-pane">
-    Var god fyll i samtliga fält
-  </div>
-</div>
-</div>
-<div class="place-ready" v-if="img_url">
-  <img :src="img_url" class="image"/>
-</div>
-      <div v-if="!loader && !warning" >
+      <div class="shake-div" v-if="warning">
+        <div class="window">
+          <div class="title-bar">
+            <button aria-label="Close" class="close"></button>
+            <h1 class="title">Warning</h1>
+          <!-- <button aria-label="Resize" class="resize"></button> -->
+            <button aria-label="Close" class="close"></button>
+          </div>
+          <div class="window-pane">
+            Var god fyll i samtliga fält
+          </div>
+        </div>
+      </div>
+      <div class="place-ready" v-if="img_url">
+        <img :src="img_url" class="image"/>
+      </div>
+      <!-- first screen -->
+      <div v-if="!loader && !warning && !img_url" >
         <div id="logo" class=""></div>
-     <!--    <div id="title" class="">LIR <span class="blink_me">+</span> JUL</div> -->
         <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
       </div>
-      
+      <!-- loader -->  
       <div v-else-if="loader" style="text-align: center;">
         <div class="loader"></div>
       </div> 
-    </div>
-    </div>
+          </div>
+      </div>
     <div class="divider-1"></div>
 
     <div class="art-input-screen">
+      <form @submit.prevent="calculate">
     <div class="art-input">
         <!--bind to ref-->
         <input type="text" id="artwork1" name="artwork1" placeholder="konstverk #1" required minlength="4" maxlength="12" size="20" v-model="artwork1"/>
@@ -59,8 +61,9 @@
     <div class="art-input">
         <input type="text" id="artwork5" name="artwork5" placeholder="konstverk #5" required minlength="4" maxlength="12" size="20" v-model="artwork5"/>
     </div>
+    </form>
     </div>
-    <div id="calculate" @click="calculate"></div>
+    <div id="calculate" @click="calculate" v-show="img_url == ''"></div>
   </div>
 </template>
 
@@ -108,12 +111,18 @@ import { onMounted, ref } from 'vue'
     loader.value = true;
     //randomize table from database
     const response = await randomiseTable();
-    //set table in store
-    store.setTable(response);
+    //set table in store after 5 seconds
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        store.setTable(response);
+        resolve(); // Resolving without any arguments
+      }, 5000);
+    });
     //get corresponding image
     const image = getImage(response);
     if (image) {
       img_url.value = image; 
+      loader.value = false;
     } else {
       console.warn('Image not found for:', response);
       img_url.value = ''; 
@@ -141,8 +150,9 @@ onMounted(() => {
 #calculate {
     cursor: pointer;
 }
-
-
+.container {
+    align-items: center;
+}
 /* HTML: <div class="loader"></div> */
 .loader {
     margin-top: 10vh;
@@ -309,4 +319,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
 }
+
+
 </style>
