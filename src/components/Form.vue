@@ -9,6 +9,9 @@
       class="snowflake"
     >*</span>
 
+      <!--top date-->
+<div class="top-date">December 12 - 2024</div>
+
     <!--system.css warning-->
       <div class="shake-div" v-if="warning">
         <div class="window">
@@ -170,7 +173,7 @@ onMounted(() => {
   background-origin: border-box;
   position: absolute;
   animation: l9-0 2s infinite;
-  margin-left:17vw;
+  margin-left:29vw;
   opacity:0.5;
   color:black;
 }
@@ -316,8 +319,9 @@ onMounted(() => {
 }
 
 .image {
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
+  opacity:0.6;
 }
 
 
