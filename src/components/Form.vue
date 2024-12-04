@@ -218,6 +218,8 @@ onMounted(() => {
   height: 30vh; /* Adjust based on the section you want to cover */
   width: 100%;
   background: transparent; /* Background color, optional */
+  display: flex;
+  justify-content: center
 }
 
 .snowflake {
