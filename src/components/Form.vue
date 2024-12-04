@@ -175,9 +175,8 @@ onMounted(() => {
   border-right: 5px solid #0000;
   border-left: 5px solid #0000;
   background-origin: border-box;
-  position: absolute;
+  position: relative;
   animation: l9-0 2s infinite;
-  margin-left:29vw;
   opacity:0.5;
   color:black;
 }
@@ -219,7 +218,8 @@ onMounted(() => {
   width: 100%;
   background: transparent; /* Background color, optional */
   display: flex;
-  justify-content: center
+  justify-content: center;
+  /* align-items: center; */
 }
 
 .snowflake {
