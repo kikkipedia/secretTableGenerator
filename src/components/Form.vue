@@ -46,23 +46,23 @@
       <form @submit.prevent="calculate">
     <div class="art-input">
         <!--bind to ref-->
-        <input type="text" id="artwork1" name="artwork1" placeholder="konstverk #1" required minlength="4" maxlength="12" size="20" v-model="artwork1"/>
+        <input type="text" id="artwork1" name="artwork1" placeholder="konstverk #1" required minlength="4" maxlength="12" size="20" v-model="artwork1" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork2" name="artwork2" placeholder="konstverk #2" required minlength="4" maxlength="12" size="20" v-model="artwork2"/>
+        <input type="text" id="artwork2" name="artwork2" placeholder="konstverk #2" required minlength="4" maxlength="12" size="20" v-model="artwork2" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork3" name="artwork3" placeholder="konstverk #3" required minlength="4" maxlength="12" size="20" v-model="artwork3"/>
+        <input type="text" id="artwork3" name="artwork3" placeholder="konstverk #3" required minlength="4" maxlength="12" size="20" v-model="artwork3" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork4" name="artwork4" placeholder="konstverk #4" required minlength="4" maxlength="12" size="20" v-model="artwork4"/>
+        <input type="text" id="artwork4" name="artwork4" placeholder="konstverk #4" required minlength="4" maxlength="12" size="20" v-model="artwork4" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork5" name="artwork5" placeholder="konstverk #5" required minlength="4" maxlength="12" size="20" v-model="artwork5"/>
+        <input type="text" id="artwork5" name="artwork5" placeholder="konstverk #5" required minlength="4" maxlength="12" size="20" v-model="artwork5" :disabled="isSubmitted" />
     </div>
     </form>
     </div>
@@ -93,6 +93,7 @@ import { onMounted, ref } from 'vue'
     const loader = ref(false);
     const images: Record<string, { default: string }> = import.meta.glob('/src/assets/*.png', { eager: true });
     const img_url = ref('');
+    const isSubmitted = ref(false); 
 
     const store = useTableStore();
    
@@ -110,6 +111,7 @@ import { onMounted, ref } from 'vue'
     else {
       warning.value = false;
     }
+    isSubmitted.value = true;
     //make an array of artworks
     const artwork: Artwork = [artwork1.value, artwork2.value, artwork3.value, artwork4.value, artwork5.value];
     //save to database
