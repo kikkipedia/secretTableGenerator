@@ -12,7 +12,7 @@
       <!--top date-->
 <div class="top-date">December 12 - 2024</div>
 
-    <!--system.css warning-->
+    <!--system warning-->
       <div class="shake-div" v-if="warning">
         <div class="window">
           <div class="title-bar">
@@ -66,7 +66,7 @@
     </div>
     </form>
     </div>
-    <div id="calculate" @click="calculate" v-show="img_url == ''"></div>
+    <div id="calculate" @click="calculate"></div>
   </div>
 </template>
 
@@ -98,6 +98,10 @@ import { onMounted, ref } from 'vue'
    
 
   const calculate = async () => {
+    if(img_url.value !== '') {
+      //dont calculate if image is already shown
+      return;
+    }
     //check so all fields are filled
     if (!artwork1.value || !artwork2.value || !artwork3.value || !artwork4.value || !artwork5.value) {
       warning.value = true;
@@ -319,10 +323,17 @@ onMounted(() => {
 }
 
 .image {
-  width: 50%;
-  height: 50%;
+  max-height: 70%;
   opacity:0.6;
+  padding-top: 60px;
 }
 
+.place-ready {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  object-fit: contain;
+}
 
 </style>
