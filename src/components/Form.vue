@@ -18,7 +18,6 @@
           <div class="title-bar">
             <button aria-label="Close" class="close"></button>
             <h1 class="title">Warning</h1>
-          <!-- <button aria-label="Resize" class="resize"></button> -->
             <button aria-label="Close" class="close"></button>
           </div>
           <div class="window-pane">
@@ -26,7 +25,8 @@
           </div>
         </div>
       </div>
-      <div class="place-ready" v-if="img_url">
+      <!--image-->
+      <div class="place-ready shake-div" v-if="img_url">
         <img :src="img_url" class="image"/>
       </div>
       <!-- first screen -->
@@ -46,23 +46,23 @@
       <form @submit.prevent="calculate">
     <div class="art-input">
         <!--bind to ref-->
-        <input type="text" id="artwork1" name="artwork1" placeholder="konstverk #1" required minlength="4" maxlength="12" size="20" v-model="artwork1" :disabled="isSubmitted" />
+        <input type="text" id="artwork1" name="artwork1" placeholder="hålet" required minlength="3" maxlength="12" size="20" v-model="artwork1" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork2" name="artwork2" placeholder="konstverk #2" required minlength="4" maxlength="12" size="20" v-model="artwork2" :disabled="isSubmitted" />
+        <input type="text" id="artwork2" name="artwork2" placeholder="håriga bh:n" required minlength="3" maxlength="12" size="20" v-model="artwork2" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork3" name="artwork3" placeholder="konstverk #3" required minlength="4" maxlength="12" size="20" v-model="artwork3" :disabled="isSubmitted" />
+        <input type="text" id="artwork3" name="artwork3" placeholder="fågeln" required minlength="3" maxlength="12" size="20" v-model="artwork3" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork4" name="artwork4" placeholder="konstverk #4" required minlength="4" maxlength="12" size="20" v-model="artwork4" :disabled="isSubmitted" />
+        <input type="text" id="artwork4" name="artwork4" placeholder="jazzklubben" required minlength="3" maxlength="12" size="20" v-model="artwork4" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork5" name="artwork5" placeholder="konstverk #5" required minlength="4" maxlength="12" size="20" v-model="artwork5" :disabled="isSubmitted" />
+        <input type="text" id="artwork5" name="artwork5" placeholder="strutkatten" required minlength="3" maxlength="12" size="20" v-model="artwork5" :disabled="isSubmitted" />
     </div>
     </form>
     </div>

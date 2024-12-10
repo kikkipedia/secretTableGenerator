@@ -31,6 +31,9 @@ interface word {
 const words = ref<word[]>([]); // Temporary array 
 const artworks = ref<word[][]>([]); 
 
+//random christmas colors
+const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8000', '#ff0080', '#80ff00', '#00ff80', '#8000ff', '#0080ff', '#ff8080', '#80ff80', '#8080ff', '#ff80ff', '#80ffff', '#80ff80']
+
 const setWeight = () => { 
     // Count word frequency for the current artwork's words
     const uniqueWords = Array.from(new Set(words.value.map(a => a.text)))
@@ -38,6 +41,7 @@ const setWeight = () => {
             return {
                 text: text,
                 weight: words.value.filter(a => a.text === text).length,
+                color: colors[Math.floor(Math.random() * colors.length)]
             };
         });
     artworks.value.push(uniqueWords);
