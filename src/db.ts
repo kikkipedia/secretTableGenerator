@@ -57,7 +57,11 @@ export const randomiseTable = async (): Promise<string> => {
             //update field places in table
             const newTable = docData.places - 1;
             await setDoc(docRef, {table: newTable});
+            return `table${random}`
         }
     }
-    return `table${random}`
+    else {
+        return randomiseTable();
+    }
+    
 }
