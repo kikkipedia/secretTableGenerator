@@ -1,6 +1,5 @@
-import { set } from "firebase/database";
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, getDoc, setDoc, doc } from "firebase/firestore";
+import { collection,  getDocs, getDoc, setDoc, doc } from "firebase/firestore";
 
 //Collection name = words
 //Document name = artwork1-5
@@ -44,8 +43,8 @@ export const getAllTables = async () => {
 
 //randomise table and count -1 on the table places
 export const randomiseTable = async () => {
-    //randomiser for 1-3
-    const random = Math.floor(Math.random() * 3) + 1;
+    //randomiser for 1-10
+    const random = Math.floor(Math.random() * 10) + 1;
     const docRef = doc(db, `table/table${random}`);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
