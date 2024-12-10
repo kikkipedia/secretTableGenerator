@@ -37,21 +37,27 @@ export const getWords = async (id: string) => {
 export const getAllTables = async () => {
     const querySnapshot = await getDocs(collection(db, "table"));
     const tables = querySnapshot.docs.map(doc => doc.data());
-    console.log(tables);
+    console.log(tables); //should be 11 tables
     return tables;
 }
 
 //randomise table and count -1 on the table places
-export const randomiseTable = async () => {
-    //randomiser for 1-10
-    const random = Math.floor(Math.random() * 10) + 1;
+export const randomiseTable = async (): Promise<string> => {
+    //randomiser for 1-11 (number of tables)
+    const random = Math.floor(Math.random() * 11) + 1;
     const docRef = doc(db, `table/table${random}`);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         const docData = docSnap.data();
-        //update field places in table
-        const newTable = docData.places - 1;
-        await setDoc(docRef, {table: newTable});
+        //check if the places is zero
+        if(docData.places === 0) {
+            return randomiseTable();
+        }
+        else {
+            //update field places in table
+            const newTable = docData.places - 1;
+            await setDoc(docRef, {table: newTable});
+        }
     }
     return `table${random}`
 }
