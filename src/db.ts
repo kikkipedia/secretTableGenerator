@@ -50,7 +50,7 @@ export const randomiseTable = async (): Promise<string> => {
     if (docSnap.exists()) {
         const docData = docSnap.data();
         //check if the places is zero
-        if(docData.places === 0) {
+        if(docData.places === 0 || docData.places === undefined) {
             return randomiseTable();
         }
         else {

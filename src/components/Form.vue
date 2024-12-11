@@ -327,9 +327,9 @@ onMounted(() => {
 }
 
 .image {
-  max-height: 70%;
+  max-height: 55%;
   opacity:0.6;
-  padding-top: 60px;
+  align-self: center;
 }
 
 .place-ready {
