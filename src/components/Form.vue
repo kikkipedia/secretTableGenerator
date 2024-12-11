@@ -46,23 +46,23 @@
       <form @submit.prevent="calculate">
     <div class="art-input">
         <!--bind to ref-->
-        <input type="text" id="artwork1" name="artwork1" placeholder="hålet" required minlength="3" maxlength="12" size="20" v-model="artwork1" :disabled="isSubmitted" />
+        <input type="text" id="artwork1" name="artwork1" placeholder="1) hålet" required minlength="3" maxlength="12" size="20" v-model="artwork1" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork2" name="artwork2" placeholder="håriga bh:n" required minlength="3" maxlength="12" size="20" v-model="artwork2" :disabled="isSubmitted" />
+        <input type="text" id="artwork2" name="artwork2" placeholder="2) håriga bh:n" required minlength="3" maxlength="12" size="20" v-model="artwork2" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork3" name="artwork3" placeholder="fågeln" required minlength="3" maxlength="12" size="20" v-model="artwork3" :disabled="isSubmitted" />
+        <input type="text" id="artwork3" name="artwork3" placeholder="3) fågeln" required minlength="3" maxlength="12" size="20" v-model="artwork3" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork4" name="artwork4" placeholder="jazzklubben" required minlength="3" maxlength="12" size="20" v-model="artwork4" :disabled="isSubmitted" />
+        <input type="text" id="artwork4" name="artwork4" placeholder="4) jazzklubben" required minlength="3" maxlength="12" size="20" v-model="artwork4" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork5" name="artwork5" placeholder="strutkatten" required minlength="3" maxlength="12" size="20" v-model="artwork5" :disabled="isSubmitted" />
+        <input type="text" id="artwork5" name="artwork5" placeholder="5) strutkatten" required minlength="3" maxlength="12" size="20" v-model="artwork5" :disabled="isSubmitted" />
     </div>
     </form>
     </div>
@@ -338,6 +338,10 @@ onMounted(() => {
   justify-content: center;
   height: 100%;
   object-fit: contain;
+}
+
+.art-input input {
+  
 }
 
 </style>
