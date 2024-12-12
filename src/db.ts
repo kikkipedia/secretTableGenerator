@@ -14,8 +14,12 @@ export const saveWords = async (words: string[]) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             const docData = docSnap.data();
-            const newWords = [...docData.words, word];
-            await setDoc(docRef, {words: newWords});
+            if(!docData.words) {
+                await setDoc(docRef, {words: [word]});
+            } else {
+                const newWords = [...docData.words, word];
+                await setDoc(docRef, {words: newWords});
+            }
 
         } else {
             await setDoc(docRef, {words: [word]});
