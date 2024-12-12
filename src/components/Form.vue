@@ -340,8 +340,20 @@ onMounted(() => {
   object-fit: contain;
 }
 
-.art-input input {
-  
+/* General styling for placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: #6c757d; /* Adjust the color to make it more visible */
+  opacity: 1;     /* Ensure full opacity */
+}
+
+/* Specific styling for mobile devices */
+@media screen and (max-width: 768px) {
+  input::placeholder,
+  textarea::placeholder {
+    color: #343a40; /* A darker color for mobile */
+
+  }
 }
 
 </style>
