@@ -1,10 +1,12 @@
 {
   "firestore": {
+    "database": "(default)",
+    "location": "europe-west10",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "dist",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
