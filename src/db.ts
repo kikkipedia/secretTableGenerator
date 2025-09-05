@@ -46,26 +46,28 @@ export const getAllTables = async () => {
 }
 
 //randomise table and count -1 on the table places
-export const randomiseTable = async (): Promise<string> => {
-    //randomiser for 1-11 (number of tables)
-    const random = Math.floor(Math.random() * 11) + 1;
-    const docRef = doc(db, `table/table${random}`);
+export const randomiseSign = async (): Promise<string> => {
+    console.log("Randomising sign...");
+    const signs = ['circle', 'square', 'triangle'];
+    const random = signs[Math.floor(Math.random() * signs.length)];
+    const docRef = doc(db, `signs/${random}`);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         const docData = docSnap.data();
-        //check if the places is zero
-        if(docData.places === 0 || docData.places === undefined) {
-            return randomiseTable();
+        //check if the places is zero - then randomise again
+        if(docData.total === 0 || docData.total === undefined) {
+            return randomiseSign();
         }
         else {
-            //update field places in table
-            const newTable = docData.places - 1;
-            await setDoc(docRef, {table: newTable});
-            return `table${random}`
+            //update field total in signs collection -1
+            const newSign = docData.total - 1;
+            await setDoc(docRef, {total: newSign});
+            console.log(`Sign: ${random}, Places left: ${newSign}`);
+            return `sign${random}`
         }
     }
     else {
-        return randomiseTable();
+        return randomiseSign();
     }
     
 }
