@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { collection,  getDocs, getDoc, setDoc, doc } from "firebase/firestore";
+import { collection,  getDocs, getDoc, setDoc, doc, runTransaction, increment } from "firebase/firestore";
 
 //Collection name = words
 //Document name = artwork1-5
@@ -68,4 +68,25 @@ export const randomiseTable = async (): Promise<string> => {
         return randomiseTable();
     }
     
+    
 }
+
+export const getSymbolNumber = async (): Promise<number> => {
+  const ref = doc(db, 'symbols/symbolCounter');
+
+  const mod = await runTransaction(db, async (tx) => {
+    const snap = await tx.get(ref);
+    const current =
+      snap.exists() && typeof snap.data().number === 'number'
+        ? snap.data().number
+        : 0;
+
+    // Atomic increment; creates the field if missing
+    tx.set(ref, { number: increment(1) }, { merge: true });
+
+    const next = current + 1;       
+    return next % 3;                
+  });
+
+  return mod;
+};
