@@ -71,7 +71,8 @@
 </template>
 
 <script setup lang="ts">
-import { getSymbolNumber, randomiseTable, saveWords } from '@/db';
+
+import { getSymbolNumber, saveWords } from '@/db';
 import { useTableStore } from '@/stores/store';
 import { onMounted, ref } from 'vue'
 
@@ -122,6 +123,8 @@ import { onMounted, ref } from 'vue'
     //randomize table from database
     const response = await randomiseTable();
     //set table in store after 5 seconds
+
+    
     await new Promise<void>((resolve) => {
       setTimeout(() => {
         store.setTable(response);
