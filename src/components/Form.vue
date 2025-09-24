@@ -46,23 +46,23 @@
       <form @submit.prevent="calculate">
     <div class="art-input">
         <!--bind to ref-->
-        <input type="text" id="artwork1" name="artwork1" placeholder="1) hålet" required minlength="3" maxlength="12" size="20" v-model="artwork1" :disabled="isSubmitted" />
+        <input type="text" id="response1" name="response1" placeholder="1" required minlength="3" maxlength="12" size="20" v-model="response1" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork2" name="artwork2" placeholder="2) håriga bh:n" required minlength="3" maxlength="12" size="20" v-model="artwork2" :disabled="isSubmitted" />
+        <input type="text" id="response2" name="response2" placeholder="2" required minlength="3" maxlength="12" size="20" v-model="response2" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork3" name="artwork3" placeholder="3) fågeln" required minlength="3" maxlength="12" size="20" v-model="artwork3" :disabled="isSubmitted" />
+        <input type="text" id="response3" name="response3" placeholder="3" required minlength="3" maxlength="12" size="20" v-model="response3" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork4" name="artwork4" placeholder="4) jazzklubben" required minlength="3" maxlength="12" size="20" v-model="artwork4" :disabled="isSubmitted" />
+        <input type="text" id="response4" name="response4" placeholder="4" required minlength="3" maxlength="12" size="20" v-model="response4" :disabled="isSubmitted" />
     </div>
     <div class="divider-2"></div>
     <div class="art-input">
-        <input type="text" id="artwork5" name="artwork5" placeholder="5) strutkatten" required minlength="3" maxlength="12" size="20" v-model="artwork5" :disabled="isSubmitted" />
+        <input type="text" id="response5" name="response5" placeholder="5" required minlength="3" maxlength="12" size="20" v-model="response5" :disabled="isSubmitted" />
     </div>
     </form>
     </div>
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { randomiseTable, saveWords } from '@/db';
+import { getSymbolNumber, randomiseTable, saveWords } from '@/db';
 import { useTableStore } from '@/stores/store';
 import { onMounted, ref } from 'vue'
 
@@ -83,11 +83,11 @@ import { onMounted, ref } from 'vue'
         string
     ];
 
-    const artwork1 = ref('');
-    const artwork2 = ref('');
-    const artwork3 = ref('');
-    const artwork4 = ref('');
-    const artwork5 = ref('');
+    const response1 = ref('');
+    const response2 = ref('');
+    const response3 = ref('');
+    const response4 = ref('');
+    const response5 = ref('');
     const snowflakeCount = 30;
     const warning = ref(false);
     const loader = ref(false);
@@ -104,7 +104,7 @@ import { onMounted, ref } from 'vue'
       return;
     }
     //check so all fields are filled
-    if (!artwork1.value || !artwork2.value || !artwork3.value || !artwork4.value || !artwork5.value) {
+    if (!response1.value || !response2.value || !response3.value || !response4.value || !response5.value) {
       warning.value = true;
       return;
     }
@@ -113,11 +113,12 @@ import { onMounted, ref } from 'vue'
     }
     isSubmitted.value = true;
     //make an array of artworks
-    const artwork: Artwork = [artwork1.value, artwork2.value, artwork3.value, artwork4.value, artwork5.value];
+    const responses: string[] = [response1.value, response2.value, response3.value, response4.value, response5.value];
     //save to database
-    await saveWords(artwork);
+    await saveWords(responses);
     //start loader
     loader.value = true;
+    /*
     //randomize table from database
     const response = await randomiseTable();
     //set table in store after 5 seconds
@@ -135,7 +136,11 @@ import { onMounted, ref } from 'vue'
     } else {
       console.warn('Image not found for:', response);
       img_url.value = ''; 
-    }
+    }*/
+   const myNumber = await getSymbolNumber();
+   const image = `/src/assets/symbol${myNumber}.png`;
+    img_url.value = image;
+    loader.value = false;
   };
 
   const getImage = (table: string): string | undefined => {
