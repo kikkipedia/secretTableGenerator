@@ -10,7 +10,7 @@
     >*</span>
 
       <!--top date-->
-<div class="top-date">December 12 - 2024</div>
+<!-- <div class="top-date">December 12 - 2024</div> -->
 
     <!--system warning-->
       <div class="shake-div" v-if="warning">
@@ -30,9 +30,9 @@
         <img :src="img_url" class="image"/>
       </div>
       <!-- first screen -->
-      <div v-if="!loader && !warning && !img_url" >
+      <div v-if="!loader && !warning && !img_url" class="startVault">
         <div id="logo" class=""></div>
-        <div id="instruction">Fyll i ett adjektiv per konstverk och klicka på Play</div>
+        <div id="instruction"></div>
       </div>
       <!-- loader -->  
       <div v-else-if="loader" style="text-align: center;">
@@ -338,6 +338,11 @@ onMounted(() => {
   justify-content: center;
   height: 100%;
   object-fit: contain;
+}
+
+.startVault {
+  text-align: center;
+  width: 100%;
 }
 
 /* General styling for placeholder text */
