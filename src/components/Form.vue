@@ -21,7 +21,7 @@
             <button aria-label="Close" class="close"></button>
           </div>
           <div class="window-pane">
-            Var god fyll i samtliga fält
+            Please fill in all the fields before submitting.
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@
       </div>
       <!-- first screen -->
       <div v-if="!loader && !warning && !img_url" class="startVault">
+        <div><img id="infravis-logo" src="@/assets/infravis_logo_pixel.png" alt="Infravis Logo" /></div>
         <div id="logo" class=""></div>
         <div id="instruction"></div>
       </div>
@@ -149,6 +150,11 @@ import symbol2 from '@/assets/symbol2.png';
       console.warn('Image not found for:', response);
       img_url.value = ''; 
     }*/
+   await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve(); // Resolving without any arguments
+      }, 5000);
+   });
    const myNumber = await getSymbolNumber();
    const image = symbolImages[myNumber];
     img_url.value = image;
@@ -173,6 +179,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
+#infravis-logo {
+  /* Small small in the top left corner */
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 100px;
+  height: auto;
+  z-index: 10;
+}
+
 #calculate {
     cursor: pointer;
 }
@@ -200,7 +216,7 @@ onMounted(() => {
   color:black;
 }
 .loader::before {
-  content:"Beräknar...";
+  content:"Calculating...";
 }
 .loader::after {
   content: "";
@@ -245,7 +261,7 @@ onMounted(() => {
   position: absolute;
   top: -10px; /* Start above the container */
   font-size: 14px;
-  color: rgba(0,0,0,0.4);
+  color: rgba(211, 175, 55, 0.89);
   animation: fall linear infinite;
 }
 
