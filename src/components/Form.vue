@@ -335,7 +335,7 @@ onMounted(() => {
 }
 
 .image {
-  max-height: 55%;
+  max-height: 75%;
   opacity:0.6;
   align-self: center;
 }
