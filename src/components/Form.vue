@@ -75,6 +75,9 @@
 import { getSymbolNumber, saveWords } from '@/db';
 import { useTableStore } from '@/stores/store';
 import { onMounted, ref } from 'vue'
+import symbol0  from '@/assets/symbol0.png';
+import symbol1 from '@/assets/symbol1.png';
+import symbol2 from '@/assets/symbol2.png';
 
     type Artwork = [
         string,
@@ -97,6 +100,12 @@ import { onMounted, ref } from 'vue'
     const isSubmitted = ref(false); 
 
     const store = useTableStore();
+
+    const symbolImages: Record<number, string> = {
+      0: symbol0,
+      1: symbol1,
+      2: symbol2,
+    };
    
 
   const calculate = async () => {
@@ -141,7 +150,7 @@ import { onMounted, ref } from 'vue'
       img_url.value = ''; 
     }*/
    const myNumber = await getSymbolNumber();
-   const image = `/src/assets/symbol${myNumber}.png`;
+   const image = symbolImages[myNumber];
     img_url.value = image;
     loader.value = false;
   };
