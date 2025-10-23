@@ -26,7 +26,7 @@ body {
     background-repeat: no-repeat;
     background-position:50% 50%;
     width:100%;
-    height:30%;
+    height:75%;
     margin-top:15%;
     opacity:0.8;
   }
@@ -89,7 +89,7 @@ font-size:180%;
 }
 
 #instruction{
-    margin-top:w%;
+    margin-top:5%;
     width:100%;
 text-align:center;
 color:black;
