@@ -1,7 +1,7 @@
 <template>
   <div id="statistics" class="p-6 relative">
     <!-- Sparkle overlay -->
-    <canvas ref="sparkleCanvas" class="sparkle-canvas"></canvas>
+    <!--<canvas ref="sparkleCanvas" class="sparkle-canvas"></canvas>-->
     <!-- Metallic sheen overlay -->
     <canvas ref="sheenCanvas" class="sheen-canvas"></canvas>
 
@@ -19,8 +19,14 @@
 
     </div>
 
+    <!-- Questions -->
+    <div class="question">
+      <!-- Use v-html to render possible HTML in questions -->
+      <div v-html="qs[activeIndex]"></div>
+    </div>
     <!-- Clouds -->
     <div class="clouds" :class="{ grid: showAll }">
+      
       <div
         v-for="(opt, i) in options"
         :key="i"
@@ -28,7 +34,9 @@
         v-show="showAll || activeIndex === i"
       >
         <div class="chart" :ref="setChartRef(i)"></div>
+
       </div>
+      
     </div>
   </div>
 </template>
@@ -39,15 +47,25 @@ import * as echarts from 'echarts'
 // @ts-ignore
 import 'echarts-wordcloud'
 import { getWords } from '@/db'
+import sq1 from '@/assets/sq1.png'
+import sq3 from '@/assets/sq3.png'
+import sq4 from '@/assets/sq4.png'
 
 interface Word { text: string; weight: number; color?: string }
 interface EData { name: string; value: number; textStyle?: { color?: string; shadowColor?: string; shadowBlur?: number } }
 
-const tabs = ['Artwork 1', 'Artwork 2', 'Artwork 3', 'Artwork 4', 'Artwork 5']
+const tabs = ['Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5']
 const activeIndex = ref(0)
 const showAll = ref(false)
 const toggleShowAll = () => { showAll.value = !showAll.value }
 
+const qs = [
+  `What feeling does this image evoke?<br/><br/><img src="${sq1}" alt="Artwork 1" style="max-width: 100%; height: auto;"/>`,
+  "Fill in the missing word:<br/><br/>Gothenburg, see here lies your fleet,<br/>that has carried you honor and gold;<br/>here your coffee comes in from Santos,<br/>and there your coal-steamer heads for Hull.<br/>Here the frigate sailed out of the fjord<br/>with men bound for India,<br/>and with longing and <span style=\"color: #c0c0c0\">[___]</span> in the holds<br/>the sister-frigate returned again.",
+  `Give this statue a name:<br/><br/><img src="${sq3}" alt="Artwork 3" style="max-width: 100%; height: auto;"/>`,
+  `Poseidon question - what kind of fish is he holding?<br/><br/><img src="${sq4}" alt="Artwork 4" style="max-width: 100%; height: auto;"/>`,
+  "What do you think is in the vault?"
+]
 const shapes: Array<'circle' | 'cardioid' | 'diamond' | 'triangle' | 'star'> = [
   'circle', 'cardioid', 'diamond', 'triangle', 'star'
 ]
@@ -411,7 +429,13 @@ watch([activeIndex, showAll], async () => {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
-
+.question {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffd700;
+  margin-top: 10px;
+  text-align: center;
+}
 .content {
   display: block;
   height: 58vh;
