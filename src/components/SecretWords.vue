@@ -16,7 +16,6 @@
       >
         {{ tab }}
       </button>
-
     </div>
 
     <!-- Questions -->
@@ -33,8 +32,8 @@
         class="content"
         v-show="showAll || activeIndex === i"
       >
-        <div class="chart" :ref="setChartRef(i)"></div>
-
+        <!-- stable, warning-free array template ref -->
+        <div class="chart" ref="chartEls"></div>
       </div>
       
     </div>
@@ -42,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue'
+import { onMounted, onBeforeUnmount, onBeforeUpdate, ref, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
 // @ts-ignore
 import 'echarts-wordcloud'
@@ -74,10 +73,15 @@ const metallic = ['#fff4c2', '#ffe28a', '#ffd24a', '#f3c221', '#d1ad3d', '#a17a1
 
 const artworks = ref<Word[][]>([[], [], [], [], []])
 const options = ref<any[]>([])
-const chartEls = ref<HTMLDivElement[]>([])
+const chartEls = ref<HTMLDivElement[]>([])           // <- array template ref target
 const charts = ref<echarts.EChartsType[]>([])
 const maskCanvas = document.createElement('canvas')
 let maskCtx: CanvasRenderingContext2D | null = null
+
+// Reset array template refs before each update so Vue repopulates them with current nodes
+onBeforeUpdate(() => {
+  chartEls.value = []
+})
 
 function setCanvasSize(cvs: HTMLCanvasElement) {
   const dpr = window.devicePixelRatio || 1
@@ -86,13 +90,9 @@ function setCanvasSize(cvs: HTMLCanvasElement) {
   cvs.height = Math.max(1, Math.floor(clientHeight * dpr))
   const ctx = cvs.getContext('2d')
   if (ctx) {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0) // make drawing use CSS pixels
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0) // draw in CSS pixels
   }
   return ctx
-}
-const setChartRef = (i: number) => (el: HTMLDivElement | null) => {
-  if (!el) return
-  chartEls.value[i] = el
 }
 
 function computeWords(words: string[]): Word[] {
@@ -107,12 +107,13 @@ function computeWords(words: string[]): Word[] {
   })
   return arr
 }
+
 async function rebuildMask() {
   const container = document.getElementById('statistics') as HTMLDivElement | null
   const sheenCvs = sheenCanvas.value
   if (!container || !sheenCvs) return
 
-  // Prepare mask Canvas to match the sheen canvas
+  // Match mask canvas to sheen canvas CSS size + DPR
   maskCanvas.style.width = `${sheenCvs.clientWidth}px`
   maskCanvas.style.height = `${sheenCvs.clientHeight}px`
   maskCtx = setCanvasSize(maskCanvas)
@@ -127,7 +128,7 @@ async function rebuildMask() {
     charts.value.map(async (chart, i) => {
       const el = chartEls.value[i]
       if (!chart || !el) return
-      // Respect "Show One" vs "Show All"
+
       const isVisible = showAll.value || activeIndex.value === i
       if (!isVisible) return
 
@@ -137,7 +138,6 @@ async function rebuildMask() {
       const w = el.clientWidth
       const h = el.clientHeight
 
-      // Transparent background snapshot (PNG dataURL)
       const url = chart.getDataURL({ pixelRatio: 1, backgroundColor: 'rgba(0,0,0,0)' })
       await new Promise<void>((resolve) => {
         const img = new Image()
@@ -150,18 +150,17 @@ async function rebuildMask() {
     })
   )
 }
+
 function toEchartsData(w: Word[]): EData[] {
-  return w.map((x) => {
-    return {
-      name: x.text,
-      value: x.weight,
-      textStyle: {
-        color: x.color || metallic[0],
-        shadowColor: '#ffffff66',
-        shadowBlur: 8,
-      },
-    }
-  })
+  return w.map((x) => ({
+    name: x.text,
+    value: x.weight,
+    textStyle: {
+      color: x.color || metallic[0],
+      shadowColor: '#ffffff66',
+      shadowBlur: 8,
+    },
+  }))
 }
 
 function buildOption(idx: number, data: EData[]) {
@@ -202,22 +201,23 @@ function buildOption(idx: number, data: EData[]) {
 }
 
 function ensureCharts() {
-  charts.value = charts.value || []
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < options.value.length; i++) {
     const el = chartEls.value[i]
-    if (el && !charts.value[i]) charts.value[i] = echarts.init(el)
+    if (el && !charts.value[i]) {
+      charts.value[i] = echarts.init(el)
+    }
   }
 }
 
 function renderAll() {
   ensureCharts()
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < options.value.length; i++) {
     if (charts.value[i] && options.value[i]) {
       charts.value[i].setOption(options.value[i])
       charts.value[i].resize()
     }
   }
-  rebuildMask();
+  rebuildMask()
 }
 
 async function loadAll() {
@@ -229,7 +229,7 @@ async function loadAll() {
     artworks.value[i] = computed
   }
   options.value = artworks.value.map((w, i) => buildOption(i, toEchartsData(w)))
-  await nextTick()
+  await nextTick() // allow DOM with refs to render
   renderAll()
 }
 
@@ -281,10 +281,10 @@ function animateSheen() {
   if (!canvas || !sheenCtx) return
   const { width, height } = canvas
 
-  sheenCtx.setTransform(1, 0, 0, 1, 0, 0) // (we draw in canvas pixel space but sized via setCanvasSize)
+  sheenCtx.setTransform(1, 0, 0, 1, 0, 0)
   sheenCtx.clearRect(0, 0, width, height)
 
-  // --- draw the moving sheens ---
+  // moving sheens
   sheenCtx.globalCompositeOperation = 'source-over'
   sheenCtx.globalAlpha = 1
 
@@ -309,7 +309,7 @@ function animateSheen() {
   sheenCtx.fillStyle = gradient2
   sheenCtx.fillRect(x2 - 100, 0, 200, height)
 
-  // --- clip sheen to word shapes using mask ---
+  // clip sheen to word shapes using mask
   if (maskCanvas && maskCtx) {
     sheenCtx.globalCompositeOperation = 'destination-in'
     sheenCtx.drawImage(maskCanvas, 0, 0)
@@ -322,16 +322,13 @@ onMounted(async () => {
   await loadAll()
 
   const onResize = () => {
-    // Resize visible charts as you already do
     renderAll()
 
-    // Size sparkle + sheen canvases (with DPR handling)
     if (sparkleCanvas.value) setCanvasSize(sparkleCanvas.value)
     if (sheenCanvas.value) {
       sheenCtx = setCanvasSize(sheenCanvas.value)
     }
 
-    // Rebuild the mask because chart rects changed
     rebuildMask()
   }
 
@@ -359,6 +356,10 @@ watch([activeIndex, showAll], async () => {
   await rebuildMask()
 })
 
+onBeforeUnmount(() => {
+  // dispose echarts instances
+  charts.value.forEach((c) => { try { c?.dispose() } catch {} })
+})
 </script>
 
 <style scoped>
@@ -374,20 +375,19 @@ watch([activeIndex, showAll], async () => {
   position: absolute;
   top: 55%;
   left: 50%;
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   width: 20%;
   height: 15%;
   pointer-events: none;
   z-index: 5;
-     mix-blend-mode: screen; 
-     
+  mix-blend-mode: screen;
 }
 
 .sheen-canvas {
   position: absolute;
   top: 55%;
   left: 50%;
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   width: 50%;
   height: 50%;
   pointer-events: none;
